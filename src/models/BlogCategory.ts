@@ -1,35 +1,35 @@
 import {
   Entity,
-  Column,
   PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
 } from 'typeorm';
-import Permission from './Permission';
 
-@Entity('users')
-class User {
+import User from './User';
+
+@Entity('blogcategories')
+class BlogCategory {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column()
+  userid: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userid' })
+  user: User;
+
+  @Column()
   name: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
 
   @CreateDateColumn()
   createdat: Date;
 
   @UpdateDateColumn()
   updatedat: Date;
-
-  @OneToOne(() => Permission, permission => permission.user)
-  permissions: Permission;
 }
 
-export default User;
+export default BlogCategory;

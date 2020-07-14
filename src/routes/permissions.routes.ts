@@ -14,6 +14,7 @@ permissionsRouter.get('/:id', async (request, response) => {
 
   const permissions = await permissionsRepository.findOne({
     where: { userid: id },
+    relations: ['user'],
   });
 
   return response.json(permissions);

@@ -20,6 +20,14 @@ class PermissionsSetService {
   }: Request): Promise<Permissions> {
     const permissionsRepository = getRepository(Permissions);
 
+    const permissionAlreadySet = await permissionsRepository.findOne({
+      where: { userid },
+    });
+
+    if (permissionAlreadySet) {
+      throw new AppError('Permission is already seted, try to update');
+    }
+
     if (!userid) {
       throw new AppError('The Field userid can not be null or empty!');
     }

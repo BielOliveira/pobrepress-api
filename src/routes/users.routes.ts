@@ -26,9 +26,10 @@ usersRoute.post('/', async (request, response) => {
 
 usersRoute.get('/', ensureAuthenticated, async (request, response) => {
   const usersRepository = getRepository(User);
-  const users = await usersRepository.find();
+  const users = await usersRepository.find({ relations: ['permissions'] });
 
   const serializedUsers = users.map(user => {
+    // eslint-disable-next-line no-param-reassign
     delete user.password;
     return user;
   });
